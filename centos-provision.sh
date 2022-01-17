@@ -15,6 +15,7 @@ echo "Pl3a8s3!}chan83" | passwd --stdin david
 # Install docker 
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
+sleep 3
 systemctl enable --now docker
 sleep 3
 usermod -aG docker david
@@ -30,6 +31,8 @@ curl -sS https://webinstall.dev/k9s | bash
 sleep 3
 
 # Install HELM
+echo "export PATH=$PATH:/usr/local/bin" >> /etc/profile
+source /etc/profile
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 chmod 700 get_helm.sh
 ./get_helm.sh
