@@ -16,11 +16,24 @@ echo "Pl3a8s3!}chan83" | passwd --stdin david
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 sleep 3
-systemctl enable --now docker
+sudo mkdir /etc/docker
+cat <<EOF | sudo tee /etc/docker/daemon.json
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2"
+}
+EOF
+
+systemctl enable docker
+systemctl daemon-reload docker
+systemctl restart docker
 sleep 3
 usermod -aG docker david
 docker run hello-world
-echo "Time to generate or copy SSH keys"
 sleep 3
 
 # Install k3d
@@ -31,11 +44,12 @@ curl -sS https://webinstall.dev/k9s | bash
 sleep 3
 
 # Install HELM
-echo "export PATH=$PATH:/usr/local/bin" >> /etc/profile
-source /etc/profile
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 chmod 700 get_helm.sh
 ./get_helm.sh
+sleep 3
+echo "export PATH=$PATH:/usr/local/bin/" >> /etc/profile
+source /etc/profile
 # Install kubeadm
 cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
 br_netfilter
