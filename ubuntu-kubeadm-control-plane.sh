@@ -51,5 +51,4 @@ echo "Verifiy cluster is working"
 # kubectl get nodes
 # kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
 # kubeadm token create --print-join-command
-# kubeadm join 155.138.194.18:6443 --token zlpd8y.qm6vp9jkkupa3n5b --discovery-token-ca-cert-hash sha256:3512b4d7c81bb4f2164d49dda3f330120d53fd9423fde1c4b4ccb9263e11983f
 
